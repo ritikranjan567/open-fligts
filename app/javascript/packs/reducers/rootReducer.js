@@ -1,4 +1,3 @@
-import { element } from "prop-types";
 
 const initialState = {
   airlines: [],
@@ -15,6 +14,7 @@ const initialState = {
     },
     flag: false
   },
+  errors: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -108,6 +108,19 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         formEdit: {...state.formEdit, flag: !state.formEdit.flag}
       }
+
+    case "ADD_ERROR":
+      return {
+        ...state,
+        errors: state.errors.concat(action.errors)
+      }
+
+    case "RESET_ERRORS":
+      return {
+        ...state,
+        errors: initialState.errors
+      }
+
     default:
       return state;
   } 

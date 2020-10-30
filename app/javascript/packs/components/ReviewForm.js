@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setFormData, addReview, setReview, editReview, setFormEditMode } from '../actions/reviewsAction';
-import { updateAverageScore, switchFlag } from '../actions/airlinesActions';
+import { updateAverageScore, switchFlag, addError } from '../actions/airlinesActions';
 const axios = require('axios');
 
 class ReviewForm extends React.Component {
@@ -23,7 +23,7 @@ class ReviewForm extends React.Component {
     let { reviewId } = this.props;
     let review = this.props.reviews.find((review) => { return parseInt(review.attributes.id) === reviewId });
     if (review && this.props.flag) {
-      console.log(review);
+      //console.log(review);
       this.props.switchFlag()
       this.props.setReview(review.attributes);
     }
@@ -56,8 +56,10 @@ class ReviewForm extends React.Component {
       updateAverageScore(airlineId);
       setFormEditMode("new", null);
       //sf();
-    })
-    .catch((error) => console.error(error));
+    }, (error) => {
+        //console.log(error.response.data.error);
+        this.props.addError(error.response.data.error);
+      })
   }
 
   handleReset = (e) => {
@@ -76,11 +78,11 @@ class ReviewForm extends React.Component {
         <h2>{mode.charAt(0).toUpperCase() + mode.slice(1)} review</h2>
         <label htmlFor="title">Title:</label>
         <input type="text" required={true} className="review-inputs" id="title" value={this.props.review.title} onChange={this.handleChange} /> <br />
-        <label htmlFor="description">Brief your experience:</label>
-        <input type="text" className="review-inputs" id="description" required={true} value={this.props.review.description} onChange={this.handleChange} /> <br />
+        <label htmlFor="description">Describe your experience:</label>
+        <input type="text" className="review-inputs" id="description" value={this.props.review.description} onChange={this.handleChange} required={true} /> <br />
         <br />
         <label htmlFor="score">Score the services(out of 5):</label>
-        <input type="number" min="1" max="5" className="review-score" value={this.props.review.score} onChange={this.handleChange} id="score"/> / 5 <br /> <br />
+        <input type="number" min="1" max="5" className="review-score" value={this.props.review.score} onChange={this.handleChange} id="score" required={true} /> / 5 <br /> <br />
         <input type="submit" value="Submit Review" className="review-form-button" />
         <input type="reset" valut="Reset" className="review-form-button" onClick={this.handleReset}/>
       </form>
@@ -106,7 +108,8 @@ const mapDispatchToProps = (dispatch) => ({
   editReview: (newReview) => (dispatch(editReview(newReview))),
   updateAverageScore: (airlineId) => (dispatch(updateAverageScore(airlineId))),
   setFormEditMode: (mode, reviewId) => (dispatch(setFormEditMode(mode, reviewId))),
-  switchFlag: () => (dispatch(switchFlag()))
+  switchFlag: () => (dispatch(switchFlag())),
+  addError: (errors) => (dispatch(addError(errors)))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReviewForm);

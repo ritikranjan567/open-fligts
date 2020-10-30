@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {setAirlinesAndReviews, updateAverageScore, switchFlag} from '../actions/airlinesActions';
+import {setAirlinesAndReviews, updateAverageScore, switchFlag, addError} from '../actions/airlinesActions';
 import {deleteReview, setFormEditMode} from '../actions/reviewsAction';
 import ReviewForm from './ReviewForm';
 import ReviewLists from './ReviewLists';
@@ -17,7 +17,11 @@ class Airline extends React.Component{
           //console.log(res.data)
           this.props.setAirlinesAndReviews([res.data.data], res.data.included)
         })
-        .catch(error => console.error(error))     
+        .catch(error => {
+          console.error(error)
+          this.props.addError(error.response.data.error);
+          this.props.history.push("/");
+        });     
     }
   }
   handleDeleteReview = (reviewId) => {
@@ -27,7 +31,9 @@ class Airline extends React.Component{
         console.log("deleted");
         this.props.updateAverageScore(this.props.match.params.id)
       })
-      .catch((error) => (console.error(error)));
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   handleEditReview = (reviewId) => {
@@ -91,7 +97,8 @@ const mapDispatchToProps = (dispatch) => {
     deleteReview: (reviewId) => (dispatch(deleteReview(reviewId))),
     setFormEditMode: (mode, reviewId) => (dispatch(setFormEditMode(mode, reviewId))),
     updateAverageScore: (airlineId) => (dispatch(updateAverageScore(airlineId))),
-    switchFlag: () => (dispatch(switchFlag()))
+    switchFlag: () => (dispatch(switchFlag())),
+    addError: (errors) => (dispatch(addError(errors)))
   }
 };
 

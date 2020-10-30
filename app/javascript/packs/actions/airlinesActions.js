@@ -20,4 +20,13 @@ export const updateAverageScore = (airlineId) => ({
 
 export const switchFlag = () => ({
   type: "SWITCH_FLAG"
-})
+});
+
+export const addError = (errors) => ({
+  type: "ADD_ERROR",
+  errors: errors
+});
+
+export const resetErrors = () => ({
+  type: "RESET_ERRORS"
+});

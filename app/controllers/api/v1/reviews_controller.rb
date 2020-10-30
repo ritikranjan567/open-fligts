@@ -6,7 +6,7 @@ class Api::V1::ReviewsController < ApplicationController
     if review.save
       render json: ReviewSerializer.new(review).to_json
     else
-      render json: { error: review.errors.messages }, status: 422
+      render json: { error: review.errors.full_messages }, status: 422
     end
   end
 
@@ -16,7 +16,7 @@ class Api::V1::ReviewsController < ApplicationController
     if review.destroy
       head :no_content
     else
-      render json: { error: review.errors.messages }, status: 422
+      render json: { error: review.errors.full_messages }, status: 422
     end
   end
 
@@ -26,7 +26,7 @@ class Api::V1::ReviewsController < ApplicationController
     if review.update(review_params)
       render json: ReviewSerializer.new(review).to_json
     else
-      render json: { error: review.errors.messages }, status: 422
+      render json: { error: review.errors.full_messages }, status: 422
     end
   end
 

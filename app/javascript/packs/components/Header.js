@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Header extends React.Component{
   constructor(props){
@@ -19,7 +20,9 @@ class Header extends React.Component{
   render(){
     return(
       <header>
+        <Link to="/">
         <h1 id="heading_logo">Open Flights</h1>
+        </Link>
         <h4>{this.state.date.toLocaleDateString() + ", " + this.state.date.toLocaleTimeString()}</h4>
       </header>
     );

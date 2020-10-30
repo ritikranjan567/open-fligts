@@ -7,7 +7,7 @@ class Api::V1::AirlinesController < ApplicationController
   end
 
   def show
-    airline = Airline.find_by(id: params[:id])
+    airline = Airline.find(params[:id])
     render json: AirlineSerializer.new(airline, options).to_json
   end
 

@@ -128,3 +128,26 @@ header{
 .review-form-button:hover{
   background-color: rgba(128, 255, 0, 0.637);
 }
+
+.no-match{
+  background-image: url('../images/robot-error-404.png');
+  background-size: auto;
+  height: 32rem;
+}
+
+#alert_info{
+  position: fixed;
+  right: 3rem;
+  bottom: 3rem;
+  background-color: rgba(255, 200, 99, 0.425);
+  border: 1px solid orange;
+  color: black;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+
+#close_button{
+  font-size: 2rem;
+  cursor: pointer;
+  font-weight: bolder;
+}
